@@ -1,11 +1,13 @@
 package christmas.domain;
 
+import java.time.LocalDate;
+
 public class Menu {
     private final Money fee;
     private final DiscountPolicy discountPolicy;
 
-    public Menu(Money fee, DiscountPolicy discountPolicy) {
-        this.fee = fee;
+    public Menu(int fee, DiscountPolicy discountPolicy) {
+        this.fee = Money.won(fee);
         this.discountPolicy = discountPolicy;
     }
 
@@ -13,7 +15,11 @@ public class Menu {
         return fee;
     }
 
-    public Money calculateOriginalFee(int quantity) {
+    public Money getOriginalFee(int quantity) {
         return fee.multiple(quantity);
+    }
+
+    public Money calculateFee(LocalDate date, int quantity) {
+        return discountPolicy.apply(date, quantity);
     }
 }

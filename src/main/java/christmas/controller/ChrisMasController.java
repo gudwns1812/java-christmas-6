@@ -7,10 +7,18 @@ import static christmas.view.OutputView.printDate;
 import static christmas.view.OutputView.printEventAnnounce;
 import static christmas.view.OutputView.printGreeting;
 import static christmas.view.OutputView.printMenu;
+import static christmas.view.OutputView.printResult;
 
+import christmas.domain.Badge;
 import christmas.domain.Bill;
+import christmas.domain.Money;
+import christmas.domain.discountcondition.DayDiscountCondition;
+import christmas.domain.discountpolicy.ChrisMasDiscountPolicy;
+import christmas.domain.discountpolicy.FixDiscountPolicy;
 import christmas.factory.BillFactory;
 import christmas.view.OutputView;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class ChrisMasController {
@@ -29,10 +37,20 @@ public class ChrisMasController {
             printMenu();
             String inputMenu = readMenu();
 
-            Bill bill = BillFactory.createBill(inputMenu);
+            Bill bill = BillFactory.createBill(date, inputMenu);
             printEventAnnounce();
             return bill;
         });
+
+        Money original = menuBill.calculateOriginalFee();
+        Money total = menuBill.calculateTotalFee(
+                List.of(new ChrisMasDiscountPolicy(), new FixDiscountPolicy(1_000,
+                        new DayDiscountCondition(List.of(3, 10, 17, 24, 25, 31))
+                ))
+        );
+
+        Optional<Badge> badge = Badge.of(original.minus(total).getValue());
+        printResult(original, total, badge);
     }
 
     private void validateDate(String date) {

@@ -5,7 +5,7 @@ public class NumberValidator {
         try {
             Integer.parseInt(number);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new IllegalArgumentException("유효하지 않은 날짜입니다. 다시 입력해 주세요.");
         }
     }
 }

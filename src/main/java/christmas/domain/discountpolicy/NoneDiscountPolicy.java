@@ -4,9 +4,9 @@ import christmas.domain.DiscountPolicy;
 import christmas.domain.Money;
 import java.time.LocalDate;
 
-public class FakeDiscountPolicy implements DiscountPolicy {
+public class NoneDiscountPolicy implements DiscountPolicy {
     @Override
     public Money apply(LocalDate date, int quantity) {
-        return null;
+        return Money.ZERO;
     }
 }

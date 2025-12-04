@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import java.time.LocalDate;
+
 public class MenuDetail {
     private final Menu menu;
     private final int quantity;
@@ -10,6 +12,10 @@ public class MenuDetail {
     }
 
     public Money getOriginalFee() {
-        return menu.calculateOriginalFee(quantity);
+        return menu.getOriginalFee(quantity);
+    }
+
+    public Money calculateFee(LocalDate date) {
+        return menu.calculateFee(date, quantity);
     }
 }

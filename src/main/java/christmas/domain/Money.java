@@ -13,6 +13,10 @@ public class Money {
         return new Money(value + other.value);
     }
 
+    public Money minus(Money other) {
+        return new Money(value - other.value);
+    }
+
     public Money multiple(int number) {
         return new Money(value * number);
     }
@@ -37,5 +41,13 @@ public class Money {
     @Override
     public int hashCode() {
         return value;
+    }
+
+    public boolean isLessThan(Money other) {
+        return value < other.value;
+    }
+
+    public boolean isGreaterThan(Money other) {
+        return value > other.value;
     }
 }

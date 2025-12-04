@@ -16,7 +16,7 @@ class BillFactoryTest {
         //given
         String input = "양송이수프-1,타파스-2";
         //when
-        Bill bill = BillFactory.createBill(input);
+        Bill bill = BillFactory.createBill(1, input);
         //then
         assertThat(bill.calculateOriginalFee())
                 .isEqualTo(Money.won(17_000));
@@ -27,7 +27,7 @@ class BillFactoryTest {
             "양송이스프-1,타파스-2", "양송이수프-0,타파스-2", "양송이수프-1, 타파스-2", "양송이수프-1,양송이수프-2", "양송이수프-15,타파스-10"
     })
     void 메뉴_입력값_예외_상황(String input) {
-        assertThatThrownBy(() -> BillFactory.createBill(input))
+        assertThatThrownBy(() -> BillFactory.createBill(1, input))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("유효하지 않은 주문입니다");
     }

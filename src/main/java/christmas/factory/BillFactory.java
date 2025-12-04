@@ -5,6 +5,7 @@ import static christmas.util.NumberValidator.validateNumber;
 import christmas.domain.Bill;
 import christmas.domain.Menu;
 import christmas.domain.MenuDetail;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,14 +18,15 @@ public class BillFactory {
     private static final int NUMBER_INDEX = 1;
     private static final MenuFactory factory = new MenuFactory();
 
-    public static Bill createBill(String input) {
+    public static Bill createBill(int date, String input) {
         List<String> menus = delimitMenu(input);
         List<List<String>> menuDetails = delimitName(menus);
 
         duplicateMenu(menuDetails);
         validMenuNumber(menuDetails);
 
-        return makeBill(menuDetails);
+        LocalDate localDate = LocalDate.of(2023, 12, date);
+        return makeBill(localDate, menuDetails);
     }
 
     private static List<String> delimitMenu(String input) {
@@ -87,11 +89,11 @@ public class BillFactory {
         return number;
     }
 
-    private static Bill makeBill(List<List<String>> menuDetails) {
+    private static Bill makeBill(LocalDate localDate, List<List<String>> menuDetails) {
         List<MenuDetail> menus = new ArrayList<>();
         menuDetails.forEach(menuDetail -> menus.add(createMenuDetail(menuDetail)));
 
-        return new Bill(menus);
+        return new Bill(localDate, menus);
     }
 
     private static MenuDetail createMenuDetail(List<String> menuDetail) {
